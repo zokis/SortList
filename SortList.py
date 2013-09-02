@@ -9,17 +9,17 @@ class SortListCommand(sublime_plugin.TextCommand):
         selection = self.view.substr(region)
 
         if selection:
-            if selection[0] == '(' or selection[0] == '[':
+            if selection[0] in ('(', '['):
                 prepend = selection[0]
 
-            if selection[-1] == ')' or selection[-1] == ']':
+            if selection[-1] in (')', ']'):
                 append = selection[-1]
 
             txt_list = selection
             if prepend:
                 txt_list = txt_list[1:]
             if append:
-                txt_list = txt_list[0:-1]
+                txt_list = txt_list[:-1]
         else:
             p1 = 0
             p2 = self.view.size()
