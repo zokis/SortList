@@ -39,16 +39,23 @@ class SortListCommand(sublime_plugin.TextCommand):
             txt_list = text[p1:p2]
             region = sublime.Region(p1, p2)
 
-        txt_list = txt_list.split(',')
+        list_items = txt_list.split(',')
 
-        for key, value in enumerate(txt_list):
-            txt_list[key] = value.strip()
+        for key, value in enumerate(list_items):
+            list_items[key] = value.strip()
 
-        txt_list.sort()
+        list_items.sort()
+        columns_79 = 1
+        for index, item in enumerate(list_items):
+            columns_79 += len(item) + 2
+            if columns_79 >= 79:
+                if index:
+                    list_items.insert(index-1, '\n')
+                columns_79 = 1
 
-        while '' in txt_list:
-            txt_list.remove('')
+        while '' in list_items:
+            list_items.remove('')
 
-        result = "%s%s%s" % (prepend, ', '.join(txt_list), append)
-
-        self.view.replace(edit, region, result)
+        result = ', '.join(list_items) \
+            .replace('\n,', '\n').replace(' \n ', '\n')
+        self.view.replace(edit, region, "%s%s%s" % (prepend, result, append))
