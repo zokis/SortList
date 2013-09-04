@@ -3,7 +3,6 @@ import sublime_plugin
 
 
 class SortListCommand(sublime_plugin.TextCommand):
-    # blah
     def run(self, edit):
         prepend = append = ''
         region = self.view.sel()[0]
